@@ -1,0 +1,561 @@
+/* 
+ * DSpace-style CSS for UICT e-Library 
+ */
+
+:root {
+    --dspace-header-bg: #ffffff;
+    --dspace-text: #333333;
+    --dspace-primary: #0275d8;
+    --dspace-border: #e0e0e0;
+    --dspace-yellow: #f0ad4e;
+    --dspace-banner-bg: #4a4a4a;
+    --dspace-footer-bg: #f8f9fa;
+    
+    /* Variables required for chat-widget.css */
+    --clr-primary: #0275d8;
+    --clr-primary-light: #5bc0de;
+    --glass-bg: rgba(255, 255, 255, 0.95);
+    --clr-bg: #f8f9fa;
+    --clr-text-muted: #6c757d;
+    --clr-border: #dee2e6;
+    --radius-md: 8px;
+    --shadow-sm: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    --clr-text: #212529;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    color: var(--dspace-text);
+    background-color: #f9f9f9;
+    line-height: 1.6;
+}
+
+a {
+    text-decoration: none;
+    color: var(--dspace-primary);
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Header */
+.dspace-header {
+    background-color: var(--dspace-header-bg);
+    border-bottom: 1px solid var(--dspace-border);
+    padding: 10px 0;
+}
+
+.header-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 15px;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.top-nav > ul {
+    list-style: none;
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.top-nav a {
+    color: var(--dspace-text);
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.top-nav a:hover {
+    color: var(--dspace-primary);
+    text-decoration: none;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.icon-btn {
+    background: none;
+    border: none;
+    font-size: 16px;
+    color: var(--dspace-text);
+    cursor: pointer;
+}
+
+.nav-link {
+    background: none;
+    border: none;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--dspace-text);
+    cursor: pointer;
+}
+
+/* Dropdown Basic CSS */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%; /* Anchor exactly below the parent */
+    left: 0;
+    background-color: #fff;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 999;
+    list-style: none;
+    border: 1px solid #ccc;
+    padding: 5px 0;
+    margin-top: 0; /* Remove gap */
+}
+
+/* Add a pseudo-element bridge to prevent hover loss if there is a tiny gap */
+.dropdown::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    height: 10px;
+    background: transparent;
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+.dropdown-menu li a {
+    color: black;
+    padding: 8px 16px;
+    text-decoration: none;
+    display: block;
+    font-weight: 400;
+}
+
+.dropdown-menu li a:hover {
+    background-color: #f1f1f1;
+}
+
+/* Top Border Line */
+.top-border-line {
+    height: 4px;
+    background-color: var(--dspace-yellow);
+    width: 100%;
+}
+
+/* Banner */
+.dspace-banner {
+    background-color: var(--dspace-banner-bg);
+    color: #fff;
+    padding: 60px 20px;
+    text-align: left;
+}
+
+.banner-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.dspace-banner h1 {
+    font-size: 2.5rem;
+    font-weight: 300;
+    margin-bottom: 10px;
+}
+
+.dspace-banner p {
+    font-size: 1.1rem;
+    font-weight: 300;
+    opacity: 0.9;
+}
+
+/* Main Content */
+.main-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px 15px;
+    background-color: #fff;
+    min-height: 500px;
+}
+
+/* Search Bar */
+.search-section {
+    border: 1px solid var(--dspace-border);
+    padding: 20px;
+    margin-bottom: 30px;
+    border-radius: 4px;
+    background-color: #fafafa;
+}
+
+.search-form {
+    display: flex;
+    gap: 10px;
+}
+
+.search-form input {
+    flex: 1;
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.search-form button {
+    padding: 10px 20px;
+    background-color: #343a40;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.search-form button:hover {
+    background-color: #23272b;
+}
+
+/* Communities Section */
+.communities-header {
+    margin-bottom: 20px;
+}
+
+.communities-header h2 {
+    font-size: 1.5rem;
+    font-weight: 400;
+    margin-bottom: 5px;
+}
+
+.communities-header p {
+    color: #666;
+}
+
+.communities-info {
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+    padding: 10px 0;
+    margin-bottom: 20px;
+    font-size: 14px;
+    color: #555;
+}
+
+.communities-list {
+    list-style: none;
+}
+
+.communities-list li {
+    padding: 15px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.community-title {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--dspace-primary);
+    text-decoration: none;
+}
+
+.community-title:hover {
+    text-decoration: underline;
+}
+
+.badge {
+    background-color: #6c757d;
+    color: #fff;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    margin-left: 10px;
+}
+
+.community-desc {
+    margin-top: 5px;
+    color: #666;
+    font-size: 14px;
+}
+
+/* Footer */
+.dspace-footer {
+    background-color: var(--dspace-footer-bg);
+    text-align: center;
+    padding: 20px;
+    border-top: 1px solid var(--dspace-border);
+    margin-top: 40px;
+    font-size: 14px;
+    color: #777;
+}
+
+/* 2-Column Layout for Community Pages */
+.page-layout {
+    display: flex;
+    gap: 30px;
+}
+
+.main-column {
+    flex: 3;
+}
+
+.sidebar-column {
+    flex: 1;
+    background-color: #f8f9fa;
+    padding: 20px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    height: fit-content;
+}
+
+.breadcrumb {
+    font-size: 14px;
+    margin-bottom: 20px;
+    color: #666;
+}
+
+.breadcrumb a {
+    color: var(--dspace-primary);
+}
+
+.community-header h1 {
+    font-size: 2rem;
+    font-weight: 300;
+    margin-bottom: 5px;
+}
+
+.uri-section {
+    margin-top: 10px;
+    margin-bottom: 20px;
+    font-size: 14px;
+}
+
+.sidebar-column h3 {
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+    border-bottom: 2px solid var(--dspace-yellow);
+    padding-bottom: 5px;
+}
+
+.sidebar-menu {
+    list-style: none;
+}
+
+.sidebar-menu li {
+    margin-bottom: 10px;
+}
+
+.sidebar-menu a {
+    color: #333;
+    font-size: 14px;
+}
+
+.sidebar-menu a:hover {
+    color: var(--dspace-primary);
+}
+
+/* ========================================================= */
+/* Responsive Media Queries                                  */
+/* ========================================================= */
+
+@media (max-width: 992px) {
+    /* Tablet & Small Desktop */
+    .header-container {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+    
+    .header-left {
+        flex-direction: column;
+    }
+    
+    .top-nav > ul {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 768px) {
+    /* Mobile Devices */
+    .dspace-banner h1 {
+        font-size: 1.8rem;
+    }
+    
+    .dspace-banner {
+        padding: 40px 15px;
+    }
+    
+    .search-form {
+        flex-direction: column;
+    }
+    
+    .search-form button {
+        width: 100%;
+    }
+    
+    /* Stack community 2-column layout */
+    .page-layout {
+        flex-direction: column;
+    }
+    
+    .sidebar-column {
+        order: -1; /* Puts browse sidebar on top on mobile if desired, or leave below. Let's leave below: remove order */
+    }
+    
+    .community-header h1 {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    /* Small Mobile */
+    .top-nav > ul {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .header-right {
+        justify-content: center;
+        width: 100%;
+        margin-top: 10px;
+}
+
+/* Statistics Tables */
+.statistics-section {
+    margin-top: 20px;
+    margin-bottom: 40px;
+}
+
+.statistics-section h2 {
+    font-size: 1.5rem;
+    font-weight: 400;
+    margin-bottom: 15px;
+    color: var(--dspace-primary);
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+.statistics-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 30px;
+    background-color: #fff;
+    box-shadow: var(--shadow-sm);
+}
+
+.statistics-table th,
+.statistics-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border: 1px solid var(--clr-border);
+}
+
+.statistics-table th {
+    background-color: #f8f9fa;
+    font-weight: 500;
+    color: #333;
+}
+
+.statistics-table tr:nth-child(even) {
+    background-color: #fcfcfc;
+}
+
+.statistics-table tr:hover {
+    background-color: #f5f5f5;
+}
+
+/* Community Tree (List of Communities) */
+.community-list-page h1 {
+    font-size: 2rem;
+    font-weight: 300;
+    margin-bottom: 20px;
+}
+
+.community-tree {
+    list-style: none;
+    padding-left: 0;
+}
+
+.community-tree-node {
+    margin-bottom: 5px;
+}
+
+.community-tree-node .node-content {
+    display: flex;
+    align-items: flex-start;
+    padding: 5px 0;
+}
+
+.community-tree-node .expand-btn {
+    background: none;
+    border: none;
+    padding: 5px 10px;
+    color: var(--dspace-text);
+    cursor: pointer;
+}
+
+.community-tree-node .expand-btn:hover {
+    color: var(--dspace-primary);
+}
+
+.community-tree-node .node-info {
+    padding-top: 5px;
+}
+
+.community-tree-node .node-title {
+    font-size: 1.15rem;
+    color: var(--dspace-primary);
+    text-decoration: none;
+    font-weight: 400;
+}
+
+.community-tree-node .node-title:hover {
+    text-decoration: underline;
+}
+
+.community-tree-node .node-desc {
+    color: #6c757d;
+    font-size: 0.9rem;
+    margin-top: 5px;
+    display: block;
+}
+
+.community-tree-node .badge {
+    background-color: #6c757d;
+    color: #fff;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    margin-left: 10px;
+    vertical-align: text-top;
+}
+
+.community-tree-children {
+    list-style: none;
+    padding-left: 40px; /* Indentation for sub-communities and collections */
+    margin-top: 5px;
+}
+
+.collection-node .node-title {
+    font-size: 1rem;
+    color: #000;
+}
+.collection-node .node-title:hover {
+    color: var(--dspace-primary);
+}
