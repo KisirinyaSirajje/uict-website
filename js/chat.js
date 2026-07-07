@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Send Message Logic
-    const handleSend = () => {
+    const handleSend = async () => {
         const text = inputField.value.trim();
         if (!text) return;
 
@@ -38,12 +38,33 @@ document.addEventListener('DOMContentLoaded', () => {
         // 2. Show Typing Indicator
         const typingId = showTypingIndicator();
         
-        // 3. Process Query (Simulate network delay)
-        setTimeout(() => {
+        // 3. Process Query via Gemini API Backend (Vercel Serverless Function)
+        try {
+            const response = await fetch('/api/chat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ message: text })
+            });
+
+            const data = await response.json();
             removeTypingIndicator(typingId);
-            const response = getFaqResponse(text);
-            appendBotMessage(response);
-        }, 1000 + Math.random() * 1000); // 1-2s delay
+            
+            if (data.response) {
+                // Convert markdown bold to HTML strong tags for basic formatting
+                const formattedResponse = data.response.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                // Convert markdown newlines to HTML br tags
+                const finalHtml = formattedResponse.replace(/\n/g, '<br>');
+                appendBotMessage(finalHtml);
+            } else {
+                appendBotMessage("Sorry, I received an invalid response from the server.");
+            }
+        } catch (error) {
+            console.error('Error fetching AI response:', error);
+            removeTypingIndicator(typingId);
+            appendBotMessage("Sorry, I am having trouble connecting to the server. Please ensure the backend is running.");
+        }
     };
 
     sendBtn.addEventListener('click', handleSend);
@@ -142,7 +163,7 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         {
             keywords: ['past papers', 'exam', 'examination', 'papers'],
-            question: "Where can I find examination past papers?",
+            question: "Where can I find past papers?",
             answer: 'Past papers are available in the respective department collections. For example, navigate to Engineering -> Department of Software Engineering, or Information Technology -> Department of Computer Science, and look for the "Examination Past Papers" collection.'
         },
         {
@@ -159,9 +180,74 @@ document.addEventListener('DOMContentLoaded', () => {
             keywords: ['books', 'book chapters', 'chapter'],
             question: "Can I read books and book chapters here?",
             answer: 'Yes, many departments maintain a "Books & Book Chapters" collection which contains uploaded chapters and open-access books published by UICT staff and partners.'
+        },
+        {
+            keywords: ['opening hours', 'time', 'open', 'close', 'hours'],
+            question: "What is the library opening hours?",
+            answer: "The library is open from 8:00 AM to 10:00 PM on weekdays, and 9:00 AM to 5:00 PM on weekends. During public holidays, please check the website for specific schedules."
+        },
+        {
+            keywords: ['borrow', 'lend', 'checkout', 'take out'],
+            question: "How do I borrow a book?",
+            answer: "To borrow a book, present your valid student or staff ID card at the circulation desk along with the books you wish to borrow."
+        },
+        {
+            keywords: ['return', 'bring back'],
+            question: "How do I return a book?",
+            answer: "You can return borrowed books at the main circulation desk during opening hours, or use the book drop box located outside the library after hours."
+        },
+        {
+            keywords: ['e-resources', 'online', 'databases', 'journals'],
+            question: "How do I access e-resources?",
+            answer: "E-resources can be accessed through the e-Library portal. Some premium databases may require you to log in with your institutional credentials."
+        },
+        {
+            keywords: ['who', 'eligible', 'use', 'services', 'outsider'],
+            question: "Who can use the library services?",
+            answer: "All registered students, faculty, and staff of UICT have full access to library services. Alumni and external researchers may apply for special access memberships."
+        },
+        {
+            keywords: ['renew', 'extend', 'keep longer'],
+            question: "How do I renew a book?",
+            answer: "Books can be renewed online through your library account, or in person at the circulation desk, provided no other user has placed a reservation on them."
+        },
+        {
+            keywords: ['reference', 'section', 'located', 'where'],
+            question: "Where is the reference section located?",
+            answer: "The reference section is typically located on the ground floor of the main library building. Please ask the front desk for directions."
+        },
+        {
+            keywords: ['catalogue', 'catalog', 'search for books'],
+            question: "How do I search for books in the catalogue?",
+            answer: "Use the online Public Access Catalog (OPAC) terminal in the library or access it via the library website to search by author, title, subject, or ISBN."
+        },
+        {
+            keywords: ['services', 'offer', 'provide'],
+            question: "What services does the library offer?",
+            answer: "We offer book borrowing, study spaces, computer labs, printing and photocopying, e-resources access, research support, and information literacy training."
+        },
+        {
+            keywords: ['reservation', 'reserve', 'hold', 'steps'],
+            question: "What are the reservation steps on how to borrow books?",
+            answer: "To reserve a book, find it in the online catalogue, click 'Place Hold', log in to your account, and confirm. You will be notified when it's ready for pickup."
+        },
+        {
+            keywords: ['what is uicte-lib', 'about uicte-lib', 'purpose of library'],
+            question: "What is UICTE-LIB?",
+            answer: "UICTE-LIB is the Uganda Institute of Information and Communication Technology e-library. It preserves and provides access to research output from the UICT community."
+        },
+        {
+            keywords: ['list of communities', 'which departments', 'available communities'],
+            question: "What communities or departments are in the e-library?",
+            answer: "The e-library currently features communities for Engineering, Information Technology, Management, and UICT Partners."
+        },
+        {
+            keywords: ['uict partners', 'partners community'],
+            question: "What is the UICT Partners community?",
+            answer: "The UICT Partners community fosters the development of ICT skills, enhances access to training resources, and supports national ICT capacity-building initiatives."
         }
     ];
-
+    
     function getFaqResponse(query) {
         const lowerQuery = query.toLowerCase();
         
