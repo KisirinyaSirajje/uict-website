@@ -4,11 +4,11 @@ const cors = require('cors');
 const path = require('path');
 const { connectDB } = require('./database');
 
-const chatHandler = require('./api/chat');
-const authRoutes = require('./api/auth');
-const knowledgeRoutes = require('./api/knowledge');
-const statsRoutes = require('./api/stats');
-const unansweredRoutes = require('./api/unanswered');
+const chatHandler = require('./routes/chat');
+const authRoutes = require('./routes/auth');
+const knowledgeRoutes = require('./routes/knowledge');
+const statsRoutes = require('./routes/stats');
+const unansweredRoutes = require('./routes/unanswered');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -45,6 +45,12 @@ app.get('/{*path}', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-app.listen(PORT, () => {
-    console.log(`✅ UICT e-Library server running at http://localhost:${PORT}`);
-});
+// Start server if not running in a serverless environment (Vercel sets VERCEL=1)
+if (!process.env.VERCEL) {
+    app.listen(PORT, () => {
+        console.log(`✅ UICT e-Library server running at http://localhost:${PORT}`);
+    });
+}
+
+// Export for Vercel serverless function
+module.exports = app;
