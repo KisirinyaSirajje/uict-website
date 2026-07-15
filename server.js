@@ -1,34 +1,12 @@
 require('dotenv').config();
-const express = require('express');
-const cors = require('cors');
 const path = require('path');
-const { connectDB } = require('./database');
+const express = require('express');
+const app = require('./api/index'); // Reuse the express app from the serverless entrypoint
 
-const chatHandler = require('./routes/chat');
-const authRoutes = require('./routes/auth');
-const knowledgeRoutes = require('./routes/knowledge');
-const statsRoutes = require('./routes/stats');
-const unansweredRoutes = require('./routes/unanswered');
-
-const app = express();
 const PORT = process.env.PORT || 3000;
-
-// Connect to Database
-connectDB();
-
-// Middleware
-app.use(cors());
-app.use(express.json());
 
 // Serve static files from the project root
 app.use(express.static(path.join(__dirname)));
-
-// API Routes
-app.post('/api/chat', chatHandler);
-app.use('/api/auth', authRoutes);
-app.use('/api/knowledge', knowledgeRoutes);
-app.use('/api/stats', statsRoutes);
-app.use('/api/unanswered', unansweredRoutes);
 
 // Fallback: serve index.html for all other GET requests (for SPA support)
 app.get('/{*path}', (req, res) => {
@@ -52,5 +30,4 @@ if (!process.env.VERCEL) {
     });
 }
 
-// Export for Vercel serverless function
 module.exports = app;
