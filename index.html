@@ -44,8 +44,12 @@
                 <div class="dropdown">
                     <button class="icon-btn" aria-label="Language"><i class="bi bi-globe-americas"></i></button>
                 </div>
-                <div class="dropdown">
-                    <button class="nav-link" aria-label="Log In">Log In <i class="bi bi-caret-down-fill" style="font-size: 10px;"></i></button>
+                <div class="dropdown" id="auth-dropdown">
+                    <button id="auth-btn" class="nav-link" aria-label="Log In" style="background: none; border: none; cursor: pointer; color: var(--dspace-primary); font-weight: 500;">Log In <i class="bi bi-caret-down-fill" style="font-size: 10px;"></i></button>
+                    <ul class="dropdown-menu" id="auth-menu">
+                        <li><a href="user-login.html">Student / Staff Login</a></li>
+                        <li><a href="admin/login.html">Admin Login</a></li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -66,7 +70,7 @@
     <main class="main-content">
         <!-- Search Bar -->
         <div class="search-section">
-            <form class="search-form" onsubmit="event.preventDefault();">
+            <form class="search-form" onsubmit="event.preventDefault(); const q = this.querySelector('input').value; if(q) window.location.href='search.html?q='+encodeURIComponent(q);">
                 <input type="text" placeholder="Search the repository ..." aria-label="Search the repository">
                 <button type="submit"><i class="bi bi-search"></i> Search</button>
             </form>
@@ -147,5 +151,28 @@
 
     <!-- Scripts -->
     <script src="js/chat.js"></script>
+    <script>
+        // Dynamic Auth Button
+        document.addEventListener('DOMContentLoaded', () => {
+            const userToken = localStorage.getItem('userToken');
+            const adminToken = localStorage.getItem('adminToken');
+            const authBtn = document.getElementById('auth-btn');
+            const authMenu = document.getElementById('auth-menu');
+            
+            if (adminToken) {
+                authBtn.innerHTML = 'Admin Account <i class="bi bi-caret-down-fill" style="font-size: 10px;"></i>';
+                authMenu.innerHTML = `
+                    <li><a href="admin/dashboard.html">Dashboard</a></li>
+                    <li><a href="#" onclick="localStorage.removeItem('adminToken'); window.location.reload(); return false;">Logout</a></li>
+                `;
+            } else if (userToken) {
+                authBtn.innerHTML = 'My Account <i class="bi bi-caret-down-fill" style="font-size: 10px;"></i>';
+                authMenu.innerHTML = `
+                    <li><a href="user-profile.html">Profile</a></li>
+                    <li><a href="#" onclick="localStorage.removeItem('userToken'); window.location.reload(); return false;">Logout</a></li>
+                `;
+            }
+        });
+    </script>
 </body>
 </html>
