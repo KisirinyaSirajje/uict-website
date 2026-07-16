@@ -1,7 +1,15 @@
 const mongoose = require('mongoose');
 
-// Connect to MongoDB
+// Cache the connection promise for serverless environments (Vercel)
+let cachedConnection = null;
+
+// Connect to MongoDB (serverless-friendly: caches and reuses connections)
 const connectDB = async () => {
+    // If already connected, reuse the connection
+    if (cachedConnection && mongoose.connection.readyState === 1) {
+        return cachedConnection;
+    }
+
     try {
         const mongoURI = process.env.MONGODB_URI;
         if (!mongoURI) {
@@ -9,11 +17,15 @@ const connectDB = async () => {
             return;
         }
 
-        await mongoose.connect(mongoURI);
+        cachedConnection = await mongoose.connect(mongoURI, {
+            serverSelectionTimeoutMS: 5000, // Fail fast if can't reach MongoDB
+        });
         console.log('✅ Connected to MongoDB');
+        return cachedConnection;
     } catch (error) {
         console.error('❌ MongoDB connection error:', error);
-        process.exit(1);
+        cachedConnection = null;
+        throw error; // Let the caller handle it instead of crashing the process
     }
 };
 
